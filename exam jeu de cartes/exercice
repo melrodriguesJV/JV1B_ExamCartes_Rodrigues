@@ -1,0 +1,72 @@
+class Cartes :
+    def __init__(self,cost,name,desc):
+        self.__cout = cost
+        self.__nom = name
+        self.__description = desc
+    def getCost (self):
+        return self.__cout
+    def getName (self):
+        return self.__nom
+    def getDesc (self):
+        return self.__description
+    
+class Mage:
+    def __init__(self,name,hp,mtot,mact,hand,defa,zn):
+        self.__nom = name
+        self.__pv = hp
+        self.__mtotal = mtot
+        self.__mactuel = mact
+        self.__main = hand
+        self.__defausse =defa
+        self.__zone = zn
+    def getName (self):
+        return self.__nom
+    def getPv (self):
+        return self.__pv
+    def getTotalmana (self):
+        return self.__mtotal
+    def getActualmana (self):
+        return self.__mactuel
+    def getHand (self):
+        return self.__main
+    def getDef (self):
+        return self.__defausse
+    def getZone (self):
+        return self.__zone
+    def playcard (self):
+        self.__main -= 1
+    def recup (self):
+        self.__mactuel = self.__mtotal
+    def attaque (self,pvcreat2,pvmage2,attcreat1):
+        target = int(input("1 pour creature, 2 pour mage \n"))
+        if target == 1:   
+           pvcreat2 -= attcreat1
+        if target == 2:   
+           pvmage2 -= attcreat1
+        if target<1 or target>2 :
+           target = int(input("cible introuvable, réessayez\n"))
+
+class Cristal(Cartes):
+    def __init__(self,cost,name,desc,val):
+        Cartes.__init__(self,cost,name,desc)
+        self.__valeur = val
+    def useCristal(self,manamax):
+        manamax += self.__valeur
+
+class Creature(Cartes):
+    def __init__(self,cost,name,desc,hp,att):
+        Cartes.__init__(self,cost,name,desc)
+        self.__pv = hp
+        self.__atq = att
+    def useCreature(self,pvTarget):
+        pvLost = pvTarget - self.__atq
+    def creatureDeath(self,defa):
+        if (self.__pv <= 0):
+            defa += 1
+
+class Blast(Cartes):
+    def __init__(self,cost,name,desc,val):
+        Cartes.__init__(self,cost,name,desc)
+        self.__valeur = val
+    def useBlast(self,pvCible):
+        pvPerdus = pvCible - self.__valeur
